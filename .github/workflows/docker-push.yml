@@ -5,7 +5,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  build-and-push:
     runs-on: ubuntu-latest
 
     steps:
@@ -15,12 +15,12 @@ jobs:
       - name: Log in to DockerHub
         uses: docker/login-action@v2
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          username: ${{ secrets.DOCKERHUB_USERNAME }}  # Utilise le secret DOCKERHUB_USERNAME
+          password: ${{ secrets.DOCKERHUB_TOKEN }}     # Utilise le secret DOCKERHUB_TOKEN
 
-      - name: Build and push
+      - name: Build and push Docker image
         uses: docker/build-push-action@v4
         with:
           context: .
           push: true
-          tags: <ameba5658>/simple-http-server:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/simple-http-server:latest  # Utilise le nom d'utilisateur DockerHub
